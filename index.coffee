@@ -7,7 +7,7 @@ ERRORS =
   'missing-input-response': 'The response parameter is missing.'
   'invalid-input-response': 'The response parameter is invalid or malformed.'
 
-GOOGLE_CAPTCHA_ENDPOINT = "https://www.google.com/recaptcha/api/siteverify"
+GOOGLE_CAPTCHA_ENDPOINT = "https://recaptcha.net/recaptcha/api/siteverify"
 
 DEFAULT_CONFIG =
   siteKey: null

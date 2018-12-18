@@ -4,7 +4,7 @@ Recaptcha2 = require "../index.coffee"
 
 recaptcha2 = new Recaptcha2 siteKey: "public_site_key", secretKey: "secret_key"
 
-GOOGLE_CAPTCHA_ENDPOINT = "https://www.google.com/recaptcha/api/siteverify"
+GOOGLE_CAPTCHA_ENDPOINT = "https://recaptcha.net/recaptcha/api/siteverify"
 RECAPTCHA_RESPONSE_OK =
   "success": true
   "challenge_ts": Date.now()
@@ -38,7 +38,7 @@ describe "recaptcha2", ->
     describe "when there is a valid frontend captcha response", ->
       it "resolves as successful", ()->
         postData = response: "valid_captcha_response", remoteip: "127.0.0.1", secret: "secret_key"
-        scope = nock("https://www.google.com")
+        scope = nock("https://recaptcha.net")
         .post("/recaptcha/api/siteverify", postData).reply 200, RECAPTCHA_RESPONSE_OK
         recaptcha2.validate("valid_captcha_response", "127.0.0.1")
         .then (response)->
@@ -56,7 +56,7 @@ describe "recaptcha2", ->
     describe "when there is an invalid frontend captcha response", ->
       it "rejects", ()->
         postData = response: "invalid_captcha_response", remoteip: "127.0.0.1", secret: "secret_key"
-        scope = nock("https://www.google.com")
+        scope = nock("https://recaptcha.net")
         .post("/recaptcha/api/siteverify", postData).reply 200, RECAPTCHA_RESPONSE_ERROR
         recaptcha2.validate("invalid_captcha_response", "127.0.0.1")
         .catch (errors)->
@@ -66,7 +66,7 @@ describe "recaptcha2", ->
     describe "when there is a request error", ->
       it "rejects", ()->
         postData = response: "valid_captcha_response", remoteip: "127.0.0.1", secret: "secret_key"
-        scope = nock("https://www.google.com")
+        scope = nock("https://recaptcha.net")
         .post("/recaptcha/api/siteverify", postData).replyWithError 500
         recaptcha2.validate("valid_captcha_response", "127.0.0.1")
         .catch (errors)->
@@ -77,7 +77,7 @@ describe "recaptcha2", ->
     describe "when there is a valid frontend captcha response", ->
       it "resolves as successful", ()->
         postData = response: "valid_captcha_response", remoteip: "127.0.0.1", secret: "secret_key"
-        scope = nock("https://www.google.com")
+        scope = nock("https://recaptcha.net")
         .post("/recaptcha/api/siteverify", postData).reply 200, RECAPTCHA_RESPONSE_OK
         recaptcha2.validateRequest({body: {'g-recaptcha-response': "valid_captcha_response"}}, "127.0.0.1")
         .then (response)->
